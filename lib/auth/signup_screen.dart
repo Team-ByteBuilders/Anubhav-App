@@ -26,120 +26,120 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: Form(
-        key: key,
-        child: ListView(
-          children: [
-            Text(
-              'Create your Account',
+    key: key,
+    child: ListView(
+      physics: const BouncingScrollPhysics(),
+      children: [
+        Text(
+          'Create your Account',
+          style: GoogleFonts.sourceSansPro(
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+              color: CustomColors.primaryBlue),
+        ).paddingForOnly(bottom: 10, top: 50),
+        RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: 'Already have an account? ',
               style: GoogleFonts.sourceSansPro(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.primaryBlue),
-            ).paddingForOnly(bottom: 10, top: 50),
-            RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: 'Already have an account? ',
-                  style: GoogleFonts.sourceSansPro(
-                      color: CustomColors.primaryBlue, fontSize: 15)),
-              TextSpan(
-                  text: 'Login',
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                          (route) => false);
-                    },
-                  style: GoogleFonts.sourceSansPro(
-                      color: CustomColors.primaryOrange, fontSize: 15))
-            ])).paddingForOnly(bottom: 30),
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (value) {
-                final RegExp nameRegExp =
-                    RegExp(r'(^[a-zA-Z]+(?: [a-zA-Z]+)*$)');
-                if (value != null && nameRegExp.hasMatch(value)) {
-                  return null;
-                } else {
-                  return 'Enter a valid name';
-                }
-              },
-              onChanged: (value) {
-                name = value;
-              },
-              decoration: const InputDecoration(labelText: 'Name'),
-            ).paddingForOnly(bottom: 20),
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (value) {
-                bool isValid = EmailValidator.validate(email);
-                if (isValid) {
-                  return null;
-                } else {
-                  return 'Email is not valid';
-                }
-              },
-              onChanged: (value) {
-                email = value;
-              },
-              decoration: const InputDecoration(labelText: 'Email'),
-            ).paddingForOnly(bottom: 20),
-            TextFormField(
-              obscureText: isVisible,
-              validator: (value) {
-                if (value != null && value.length >= 6) {
-                  return null;
-                } else {
-                  return 'Password must be atleast 6 characters';
-                }
-              },
-              onChanged: (value) {
-                password = value;
-              },
-              decoration: InputDecoration(
-                  suffixIcon: Icon(
-                    isVisible
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: CustomColors.grey,
-                  ).asButton(onTap: () => changeVisibility()),
-                  labelText: 'Password'),
-            ).paddingForOnly(bottom: 20),
-            TextFormField(
-              obscureText: isVisible,
-              autovalidateMode: AutovalidateMode.always,
-              validator: (value) {
-                if (password == confirmPassword) {
-                  return null;
-                } else {
-                  return 'Password must be same!';
-                }
-              },
-              onChanged: (value) {
-                confirmPassword = value;
-              },
-              decoration: InputDecoration(
-                  suffixIcon: Icon(
-                    isVisible
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: CustomColors.grey,
-                  ).asButton(onTap: () => changeVisibility()),
-                  labelText: 'Confirm Password'),
-            ).paddingForOnly(bottom: 20),
-            primaryButton(context,
-                label: 'Register',
-                onPressed: () => buttonPressed(),
-                processing: isProcessing)
-          ],
-        ).paddingWithSymmetry(horizontal: 16, vertical: 50),
+                  color: CustomColors.primaryBlue, fontSize: 15)),
+          TextSpan(
+              text: 'Login',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                      (route) => false);
+                },
+              style: GoogleFonts.sourceSansPro(
+                  color: CustomColors.primaryOrange, fontSize: 15))
+        ])).paddingForOnly(bottom: 30),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            final RegExp nameRegExp =
+                RegExp(r'(^[a-zA-Z]+(?: [a-zA-Z]+)*$)');
+            if (value != null && nameRegExp.hasMatch(value)) {
+              return null;
+            } else {
+              return 'Enter a valid name';
+            }
+          },
+          onChanged: (value) {
+            name = value;
+          },
+          decoration: const InputDecoration(labelText: 'Name'),
+        ).paddingForOnly(bottom: 20),
+        TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            bool isValid = EmailValidator.validate(email);
+            if (isValid) {
+              return null;
+            } else {
+              return 'Email is not valid';
+            }
+          },
+          onChanged: (value) {
+            email = value;
+          },
+          decoration: const InputDecoration(labelText: 'Email'),
+        ).paddingForOnly(bottom: 20),
+        TextFormField(
+          obscureText: isVisible,
+          validator: (value) {
+            if (value != null && value.length >= 6) {
+              return null;
+            } else {
+              return 'Password must be atleast 6 characters';
+            }
+          },
+          onChanged: (value) {
+            password = value;
+          },
+          decoration: InputDecoration(
+              suffixIcon: Icon(
+                isVisible
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                color: CustomColors.grey,
+              ).asButton(onTap: () => changeVisibility()),
+              labelText: 'Password'),
+        ).paddingForOnly(bottom: 20),
+        TextFormField(
+          obscureText: isVisible,
+          autovalidateMode: AutovalidateMode.always,
+          validator: (value) {
+            if (password == confirmPassword) {
+              return null;
+            } else {
+              return 'Password must be same!';
+            }
+          },
+          onChanged: (value) {
+            confirmPassword = value;
+          },
+          decoration: InputDecoration(
+              suffixIcon: Icon(
+                isVisible
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                color: CustomColors.grey,
+              ).asButton(onTap: () => changeVisibility()),
+              labelText: 'Confirm Password'),
+        ).paddingForOnly(bottom: 20),
+        primaryButton(context,
+            label: 'Register',
+            onPressed: () => buttonPressed(),
+            processing: isProcessing)
+      ],
+    ).paddingWithSymmetry(horizontal: 16, vertical: 50),
       ),
-    ).asButton(onTap: () => FocusManager.instance.primaryFocus?.unfocus()));
+    ).asButton(onTap: () => FocusManager.instance.primaryFocus?.unfocus());
   }
 
   void changeVisibility() {

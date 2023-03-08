@@ -34,8 +34,21 @@ dependencies:
   awesome_snackbar_content: ^0.1.1
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
+#  awesome_notifications: ^0.7.4+1
+  flutter_local_notifications: ^13.0.0
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
   google_fonts: ^4.0.3
-  intl: ^0.18.0
+  http: ^0.13.5
+  intl: ^0.17.0
+  timezone: ^0.9.1
+  rxdart: ^0.27.7
+  flutter_secure_storage: ^8.0.0
+  flutter_native_timezone: ^2.0.0
+  flutter_bloc: ^8.1.2
+  bloc: ^8.1.1
+  equatable: ^2.0.5
+  google_language_fonts: ^2.0.0
 
 dev_dependencies:
   flutter_test:

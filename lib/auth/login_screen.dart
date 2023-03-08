@@ -1,9 +1,14 @@
 import 'package:anubhav/auth/signup_screen.dart';
-import 'package:anubhav/navigation/details_screen.dart';
+import 'package:anubhav/auth/user_detail_screen.dart';
+import 'package:anubhav/navigation/loading_screen.dart';
+// import 'package:anubhav/main.dart';
+import 'package:anubhav/service/api_service.dart';
+import 'package:anubhav/service/secure_service.dart';
 import 'package:anubhav/utilities/colors.dart';
 import 'package:anubhav/utilities/custom_widgets/custom_button.dart';
 import 'package:anubhav/utilities/custom_widgets/custom_snackbar.dart';
 import 'package:anubhav/utilities/extensions/widget_extensions.dart';
+import 'package:anubhav/utilities/user_details.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ).paddingForOnly(bottom: 20),
             primaryButton(context,
                 label: 'Login',
+                // onPressed: () => ,
                 onPressed: () => buttonPressed(),
                 processing: isProcessing)
           ],
@@ -118,12 +124,36 @@ class _LoginScreenState extends State<LoginScreen> {
       if (key.currentState!.validate()) {
         debugPrint(email);
         debugPrint(password);
-        await Future.delayed(const Duration(seconds: 2));
-        //ignore:use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const DetailsScreen()),
-            (route) => false);
+
+        HTTPService http = HTTPService();
+
+        final response = await http.loginUser(email, password);
+        if (response != null) {
+          if (response.responseCode == 200) {
+            String token = response.msg;
+            SecureStorage storage = SecureStorage();
+            storage.setToken(token);
+            print('user');
+            await storage.getUserDetails();
+            print(UserDetails.currentUser.phone);
+            if(UserDetails.currentUser.phone == null) {
+              print('sdf');
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserDetailsScreen()),
+                      (route) => false);
+            }
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoadingScreen()),
+                (route) => false);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(awesomeBar(
+                title: 'Failed',
+                message: response.msg,
+                contentType: 'failure'));
+          }
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(awesomeBar(
             title: 'Error !!',
